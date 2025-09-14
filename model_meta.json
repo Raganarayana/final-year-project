@@ -1,0 +1,144 @@
+{
+  "target": "Mental_Health_History",
+  "numeric_features": [],
+  "categorical_features": [
+    "Timestamp",
+    "Gender",
+    "Country",
+    "Occupation",
+    "self_employed",
+    "family_history",
+    "treatment",
+    "Days_Indoors",
+    "Growing_Stress",
+    "Changes_Habits",
+    "Mood_Swings",
+    "Coping_Struggles",
+    "Work_Interest",
+    "Social_Weakness",
+    "mental_health_interview",
+    "care_options"
+  ],
+  "categorical_choices": {
+    "Timestamp": [
+      "8/27/2014 11:43",
+      "8/27/2014 12:31",
+      "8/27/2014 12:53",
+      "8/27/2014 16:21",
+      "8/27/2014 12:39",
+      "8/27/2014 12:48",
+      "8/27/2014 12:33",
+      "8/27/2014 15:23",
+      "8/27/2014 12:34",
+      "8/27/2014 14:13",
+      "8/27/2014 14:31",
+      "8/27/2014 12:37",
+      "8/27/2014 11:32",
+      "8/27/2014 15:24",
+      "8/27/2014 15:35",
+      "8/27/2014 14:11",
+      "8/27/2014 13:55",
+      "8/27/2014 11:29",
+      "8/27/2014 11:41",
+      "8/27/2014 12:36"
+    ],
+    "Gender": [
+      "Male",
+      "Female"
+    ],
+    "Country": [
+      "United States",
+      "United Kingdom",
+      "Canada",
+      "Australia",
+      "Netherlands",
+      "Ireland",
+      "Germany",
+      "Sweden",
+      "India",
+      "France",
+      "Brazil",
+      "New Zealand",
+      "South Africa",
+      "Italy",
+      "Switzerland",
+      "Israel",
+      "Poland",
+      "Belgium",
+      "Russia",
+      "Greece"
+    ],
+    "Occupation": [
+      "Housewife",
+      "Student",
+      "Corporate",
+      "Others",
+      "Business"
+    ],
+    "self_employed": [
+      "No",
+      "Yes",
+      "nan"
+    ],
+    "family_history": [
+      "No",
+      "Yes"
+    ],
+    "treatment": [
+      "Yes",
+      "No"
+    ],
+    "Days_Indoors": [
+      "1-14 days",
+      "31-60 days",
+      "Go out Every day",
+      "More than 2 months",
+      "15-30 days"
+    ],
+    "Growing_Stress": [
+      "Maybe",
+      "Yes",
+      "No"
+    ],
+    "Changes_Habits": [
+      "Yes",
+      "Maybe",
+      "No"
+    ],
+    "Mood_Swings": [
+      "Medium",
+      "Low",
+      "High"
+    ],
+    "Coping_Struggles": [
+      "No",
+      "Yes"
+    ],
+    "Work_Interest": [
+      "No",
+      "Maybe",
+      "Yes"
+    ],
+    "Social_Weakness": [
+      "Maybe",
+      "No",
+      "Yes"
+    ],
+    "mental_health_interview": [
+      "No",
+      "Maybe",
+      "Yes"
+    ],
+    "care_options": [
+      "No",
+      "Yes",
+      "Not sure"
+    ]
+  },
+  "classes_": [
+    "Maybe",
+    "No",
+    "Yes"
+  ],
+  "positive_label": "Maybe"
+}
