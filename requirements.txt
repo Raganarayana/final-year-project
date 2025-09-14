@@ -1,0 +1,5 @@
+flask
+gunicorn
+pandas
+scikit-learn==1.7.1
+sqlalchemy
