@@ -3,7 +3,6 @@ from datetime import datetime
 from pathlib import Path
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String, DateTime, Text, create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -21,7 +20,7 @@ Base = declarative_base()
 engine = create_engine(DB_URL, echo=False, future=True)
 SessionLocal = sessionmaker(bind=engine)
 
-class User(Base, UserMixin):
+class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     username = Column(String(50), unique=True, nullable=False)
@@ -47,16 +46,6 @@ with SessionLocal() as db:
         db.add(u)
         db.commit()
 
-# ------------- Auth Setup -------------
-login_manager = LoginManager()
-login_manager.login_view = "login"
-login_manager.init_app(app)
-
-@login_manager.user_loader
-def load_user(user_id):
-    with SessionLocal() as db:
-        return db.get(User, int(user_id))
-
 # ------------- Model + Meta -------------
 MODEL_PATH = Path("model.pkl")
 META_PATH = Path("model_meta.json")
@@ -75,6 +64,16 @@ CLASSES = META["classes_"]
 POSITIVE_LABEL = META["positive_label"]
 
 # ------------- Helpers -------------
+def login_required(func):
+    """Simple decorator to protect routes"""
+    def wrapper(*args, **kwargs):
+        if "username" not in session:
+            flash("Please log in first!", "warning")
+            return redirect(url_for("login"))
+        return func(*args, **kwargs)
+    wrapper.__name__ = func.__name__
+    return wrapper
+
 def positive_prob(prob_vector):
     if not hasattr(clf, "predict_proba"):
         return 0.5
@@ -102,9 +101,7 @@ def login():
 
         # ✅ Allow any username, password must be exactly 6 digits
         if password.isdigit() and len(password) == 6:
-            user = User(id=1)  # fake login for demo
-            login_user(user)
-            session['username'] = username  # ✅ store username in session
+            session['username'] = username
             flash(f"Welcome {username}!", "success")
             return redirect(url_for('dashboard'))
         else:
@@ -113,10 +110,8 @@ def login():
     return render_template('login.html')
 
 @app.route("/logout")
-@login_required
 def logout():
-    logout_user()
-    session.pop("username", None)
+    session.clear()
     return redirect(url_for("login"))
 
 @app.route("/dashboard")
@@ -155,7 +150,6 @@ def predict():
 
     pos_p = positive_prob(proba_vec)
     stress_score = round(pos_p * 100, 2)
-
     overall_status = status_text(pred_label)
 
     # ✅ Dynamic recommendations
@@ -231,7 +225,7 @@ def book():
 
         with SessionLocal() as dbs:
             appt = Appointment(
-                user_id=current_user.id,
+                user_id=1,  # simple static user ID (no flask-login)
                 predicted_status=predicted_status,
                 specialist=specialist,
                 appt_date=appt_date,
@@ -269,4 +263,3 @@ def book():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-
